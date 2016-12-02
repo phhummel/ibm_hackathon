@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Specifics for our project
+Daten
+test.py
