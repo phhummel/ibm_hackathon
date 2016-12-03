@@ -46,8 +46,9 @@ text_to_speech = TextToSpeechV1(
 context = {}
 
 # Create a new workspace for useful conversations
-workspace_id = '6846ffc4-07eb-45d9-a517-abe54e9f2dae'
-
+#Simple Hello World
+#workspace_id = '6846ffc4-07eb-45d9-a517-abe54e9f2dae'
+workspace_id = 'ce471236-b537-4225-b95e-5b1b5861e3d2'
 # generate filename for audio output
 unique_filename = uuid.uuid4()
 
@@ -59,6 +60,7 @@ fileNumber = 0
 for fileName in(lines):
   q.put((fileNumber,fileName))   
   fileNumber += 1
+  print fileName
 
 hostname = "stream.watsonplatform.net"   
 headers = {}
@@ -99,10 +101,15 @@ for key, value in (sorted(summary.items())):
 
 
 # Get response from trained answer model
+temp = conversation.message(
+  workspace_id=workspace_id,
+  message_input={'text': '  '},
+  context=context
+)
 response = conversation.message(
   workspace_id=workspace_id,
   message_input={'text': hypo},
-  context=context
+  context=temp['context']
 )
 
 # Unwrap answer
