@@ -56,6 +56,12 @@ def map_nextCrop(postcrop, pH, pH_table, precipi, precipi_table, precrop, precro
 	p_post = extract_p_post(postcrop,precrop,precrop_table)
 	return -np.log(p_precipi*p_pH*p_mac*p_post)
 
+def best_crop(pH, pH_table, precipi, precipi_table, precrop, precrop_table, machine, machine_clf):
+	pps = {}
+	for ii,crop in enumerate(['wei','ger','mai']):
+		pps[crop] = map_nextCrop(crop,pH, pH_table, precipi, precipi_table, precrop, precrop_table, machine, machine_clf)
+	return pps
+
 clf = tree.DecisionTreeClassifier()
 # data = ['pH','mm','vorfr']
 data = np.array([[7.0,800,1,0,0],
@@ -77,10 +83,4 @@ pH_table = np.array(pd.read_csv('boden_table.csv', index_col=0));
 precrop_table = np.array(pd.read_csv('vorfrucht_table.csv', index_col=0));
 
 
-print(map_nextCrop('wei',5.5,pH_table,600,precipi_table,'wei',precrop_table,'ce',clf))
-
-print(map_nextCrop('ger',5.5,pH_table,600,precipi_table,'wei',precrop_table,'ce',clf))
-
-print(map_nextCrop('mai',5.5,pH_table,600,precipi_table,'wei',precrop_table,'ce',clf))
-
-
+print(best_crop(5.5,pH_table,800,precipi_table,'mai',precrop_table,'ce',clf))
